@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Türkiye'nin Yazılım Haberi - Güncel Teknoloji ve Bilişim Portalı</title>
+  
+  <meta id="meta-desc" name="description" content="Türkiye'nin son 10 yılda yazılım, bilişim, ERP, ön muhasebe, bilgisayar ve ağ altyapısındaki dev adımları, yerli sistemler ve analizler.">
+  <meta name="keywords" content="yazılım, bilişim, yerli yazılım, erp, ön muhasebe, siber güvenlik, pdks, otomasyon, is yazılım, firewall, qr menü, bilgisayar, ağ, network, teknik servis">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Türkiye'nin Yazılım Haberi">
+  <link rel="canonical" href="https://www.isyazilim.online/">
+
+  <!-- Open Graph Meta Etiketleri -->
+  <meta id="og-title" property="og:title" content="Türkiye'nin Yazılım Haberi">
+  <meta id="og-desc" property="og:description" content="Türkiye'nin teknoloji ve yazılım dünyasından en son haberler ve derinlemesine analizler.">
+  <meta id="og-image" property="og:image" content="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=630&fit=crop">
+  <meta id="og-url" property="og:url" content="https://www.isyazilim.online/">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    
+    .auto-link-isyazilim {
+      color: #0284c7;
+      font-weight: 700;
+      text-decoration: underline;
+      text-decoration-color: #38bdf8;
+      transition: all 0.2s;
+    }
+    .auto-link-isyazilim:hover {
+      color: #0369a1;
+      background-color: #e0f2fe;
+      border-radius: 4px;
+      padding: 0 3px;
+    }
+
+    .auto-link-ssbilgi {
+      color: #059669;
+      font-weight: 700;
+      text-decoration: underline;
+      text-decoration-color: #34d399;
+      transition: all 0.2s;
+    }
+    .auto-link-ssbilgi:hover {
+      color: #047857;
+      background-color: #d1fae5;
+      border-radius: 4px;
+      padding: 0 3px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="bg-slate-900 text-white sticky top-0 z-40 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <div onclick="navigate('')" class="flex items-center space-x-3 group cursor-pointer">
+          <div class="bg-sky-500 p-2.5 rounded-xl group-hover:bg-sky-400 transition-colors">
+            <i data-lucide="code-2" class="w-7 h-7 text-slate-950"></i>
+          </div>
+          <div>
+            <span class="text-xl sm:text-2xl font-extrabold tracking-tight block leading-none">TÜRKİYE'NİN</span>
+            <span class="text-xs sm:text-sm font-semibold tracking-widest text-sky-400 block uppercase mt-0.5">Yazılım Haberi</span>
+          </div>
+        </div>
+
+        <!-- Masaüstü Navigasyon (Kategori Butonları) -->
+        <nav class="hidden lg:flex items-center space-x-1">
+          <button onclick="filterCategory('Tümü')" class="px-3.5 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-slate-200">Tümü</button>
+          <button onclick="filterCategory('Yerli Yazılım')" class="px-3.5 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-slate-200">Yerli Yazılım</button>
+          <button onclick="filterCategory('Siber Güvenlik')" class="px-3.5 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-slate-200">Siber Güvenlik & Ağ</button>
+          <button onclick="filterCategory('Otomasyon & ERP')" class="px-3.5 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-slate-200">Otomasyon & ERP</button>
+          <button onclick="filterCategory('Yapay Zeka')" class="px-3.5 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-slate-200">Yapay Zeka</button>
+        </nav>
+
+        <!-- Arama Çubuğu & Hamburger Butonu -->
+        <div class="flex items-center space-x-3">
+          <div class="relative w-36 sm:w-56 lg:w-64">
+            <input type="text" id="search-input" oninput="handleSearch()" placeholder="Ara..." class="w-full bg-slate-800 text-xs sm:text-sm text-slate-200 rounded-xl pl-8 sm:pl-9 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 border border-slate-700">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-2.5 sm:left-3 top-2.5"></i>
+          </div>
+
+          <!-- Mobil Hamburger Menü Butonu -->
+          <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl bg-slate-800 text-slate-200 hover:bg-slate-700 focus:outline-none">
+            <i id="hamburger-icon" data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobil Açılır Menü Container -->
+      <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-800 py-4 space-y-2">
+        <button onclick="filterCategory('Tümü')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-800 text-slate-200 flex items-center justify-between">
+          <span>Tümü</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </button>
+        <button onclick="filterCategory('Yerli Yazılım')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-800 text-slate-200 flex items-center justify-between">
+          <span>Yerli Yazılım</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </button>
+        <button onclick="filterCategory('Siber Güvenlik')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-800 text-slate-200 flex items-center justify-between">
+          <span>Siber Güvenlik & Ağ</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </button>
+        <button onclick="filterCategory('Otomasyon & ERP')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-800 text-slate-200 flex items-center justify-between">
+          <span>Otomasyon & ERP</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </button>
+        <button onclick="filterCategory('Yapay Zeka')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-800 text-slate-200 flex items-center justify-between">
+          <span>Yapay Zeka</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="app-container" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-400 mt-16 border-t border-slate-800 text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1 md:col-span-2">
+          <div class="flex items-center space-x-2 text-white font-bold text-lg mb-3">
+            <i data-lucide="code-2" class="text-sky-400 w-5 h-5"></i>
+            <span>Türkiye'nin Yazılım Haberi</span>
+          </div>
+          <p class="text-slate-400 leading-relaxed text-sm max-w-md">
+            Türkiye'nin teknoloji hamlesi, yerli yazılım çözümleri, kurumsal otomasyonlar, siber güvenlik altyapıları, bilgisayar ve ağ teknolojileri vizyonunu aktaran medya portalı.
+          </p>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-3">Kategoriler</h4>
+          <ul class="space-y-2 text-xs">
+            <li><button onclick="filterCategory('Yerli Yazılım')" class="hover:text-sky-400 text-left">Yerli Yazılım Projeleri</button></li>
+            <li><button onclick="filterCategory('Otomasyon & ERP')" class="hover:text-sky-400 text-left">Kurumsal Otomasyon & Muhasebe</button></li>
+            <li><button onclick="filterCategory('Siber Güvenlik')" class="hover:text-sky-400 text-left">Siber Savunma & Network</button></li>
+            <li><button onclick="filterCategory('Yapay Zeka')" class="hover:text-sky-400 text-left">Yapay Zeka Ve Veri Analizi</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-3">Çözüm Ortakları</h4>
+          <p class="text-xs text-slate-400 mb-1">Kurumsal Yazılım[cite: 2]:</p>
+          <a href="https://isyazilim.com" target="_blank" rel="noopener" class="text-sky-400 font-bold hover:underline block mb-3">www.isyazilim.com[cite: 2]</a>
+          <p class="text-xs text-slate-400 mb-1">Ağ, Donanım & Teknik Servis[cite: 2]:</p>
+          <a href="https://ssbilgi.com" target="_blank" rel="noopener" class="text-emerald-400 font-bold hover:underline block mb-4">www.ssbilgi.com[cite: 2]</a>
+        </div>
+      </div>
+      <div class="border-t border-slate-800 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+        <p>&copy; 2016-2026 Türkiye'nin Yazılım Haberi. Tüm hakları saklıdır.</p>
+        <button onclick="navigate('admin')" class="text-slate-400 hover:text-white transition-colors bg-slate-800 px-3.5 py-2 rounded-xl font-bold">Yönetici Paneli</button>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- GITHUB CONFIGURATION ---
+    let GITHUB_REPO = localStorage.getItem('gh_repo') || 'isyazilim/isyazilim.online'; 
+    let GITHUB_TOKEN = localStorage.getItem('gh_token') || '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';
+
+    const baseTitles = [
+      "Yerli ERP ve Ön Muhasebe Sistemlerinde Dijital Dönüşüm Hamlesi",
+      "Siber Güvenlikte Yerli Firewall Ve Bilgisayar Ağ Sistemlerinin Kullanımı Yaygınlaşıyor",
+      "Uzaktan Destek ve Bağlantı Yazılımlarında Türk Mühendis İmzası",
+      "Restoran ve Kafelerde Bulut QR Menü ve Sipariş Otomasyonları",
+      "Spor Salonu Takip Sistemlerinde Biyometrik Entegrasyon Dönemi",
+      "Güzellik Salonu ve Randevu Yazılımlarında Yapay Zeka Destekli Analiz",
+      "Personel Devam Kontrol (PDKS) Sistemlerinde Mobil Bulut Çağı",
+      "Türkiye Bilişim Sektörü Raporu: Yerli Yazılım İhracatı Rekor Kıran Seviyede",
+      "KOBİ'ler İçin Ağ Altyapısı, Bilgisayar Servisi Ve Ön Muhasebe Otomasyonunun Verimliliğe Etkisi",
+      "Bilişim Vadisi'nde Geliştirilen Yeni Nesil Yazılım Mimarileri"
+    ];
+
+    const imgPool = [
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=450&fit=crop",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop",
+      "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=450&fit=crop",
+      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=450&fit=crop",
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=450&fit=crop",
+      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=450&fit=crop",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop",
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=450&fit=crop",
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=450&fit=crop",
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&h=450&fit=crop"
+    ];
+
+    const defaultArticles = Array.from({ length: 50 }, (_, i) => {
+      const id = `n${i + 1}`;
+      const categories = ['Yerli Yazılım', 'Otomasyon & ERP', 'Siber Güvenlik', 'Yapay Zeka'];
+      const category = categories[i % categories.length];
+      const year = 2026 - Math.floor(i / 5);
+      const title = `${baseTitles[i % baseTitles.length]} (${year} Özel Rapor - Dosya ${i+1})`;
+      
+      return {
+        id,
+        title,
+        category,
+        date: `${String((i % 28) + 1).padStart(2, '0')}.${String((i % 12) + 1).padStart(2, '0')}.${year}`,
+        image: imgPool[i % imgPool.length],
+        summary: `Türkiye bilişim ve bilgisayar ağları sektörünün ${year} hedefleri doğrultusunda yerli yazılım çözümleri, teknik servis ve otomasyon süreçlerinde verimliliği en üst seviyeye çıkarıyor.`,
+        content: `
+          <p class="mb-4">Türkiye'nin teknoloji ve bilişim alanındaki dönüşüm hamlesi ivme kazanmaya devam ediyor. Özellikle kurumsal operasyonlarda kullanılan yerli yazılım çözümleri, ön muhasebe, stok takip, personel devam kontrol (PDKS) ve siber güvenlik alanlarında dışa bağımlılığı en aza indiriyor.</p>
+          <p class="mb-4">Yerli bilişim ekosistemi bünyesinde geliştirilen İS Yazılım gibi yenilikçi platformlar, küçük ve orta ölçekli işletmelerin (KOBİ) dijital altyapılarını güçlendiriyor. Kurumsal bilgisayar ağ (network) yönetimi, teknik servis desteği ve özel ERP entegrasyonlarına kadar geniş bir yelpazede sunulan bu sistemler, verilerin güvenle saklanmasını sağlıyor.</p>
+          <h3 class="text-xl font-bold mb-3 text-slate-900">Milli Bilişim Ekosistemi, Ağ Güvenliği Ve Bilgisayar Servisi</h3>
+          <p class="mb-4">Siber tehditlerin arttığı günümüz dijital dünyasında, güvenli yerli firewall ve bilgisayar servisi çözümleri kritik bir öneme sahip. Uzmanlar, düzenli bilgisayar ağı bakımı ve kaliteli teknik servis hizmetinin kurumsal süreklilik için şart olduğunu vurguluyor.</p>
+        `,
+        source: "Bilişim Ajansı",
+        author: "Haber Merkezi"
+      };
+    });
+
+    let articles = defaultArticles;
+    let customArticles = [];
+    let currentCategory = 'Tümü';
+    let searchQuery = '';
+    let isAdminLoggedIn = false;
+
+    // --- MOBİL MENÜ KONTROLÜ ---
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const icon = document.getElementById('hamburger-icon');
+      if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        icon.setAttribute('data-lucide', 'x');
+      } else {
+        menu.classList.add('hidden');
+        icon.setAttribute('data-lucide', 'menu');
+      }
+      lucide.createIcons();
+    }
+
+    function closeMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const icon = document.getElementById('hamburger-icon');
+      if (menu && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+        icon.setAttribute('data-lucide', 'menu');
+        lucide.createIcons();
+      }
+    }
+
+    // --- OTOMATİK LİNKLEME MOTORU ---
+    function applyAutoLinks(text) {
+      if (!text) return '';
+
+      // 1. isyazilim.com yönlendirmeleri[cite: 2]
+      const regexIsYazilim = /\b(yazılım|yazılımları|yazılımlarında|yazılımın|bilişim|bilişimi|bilişimde)\b(?![^<]*>|[^<>]*<\/a>)/gi;
+      text = text.replace(regexIsYazilim, (match) => {
+        return `<a href="https://isyazilim.com" target="_blank" rel="noopener" class="auto-link-isyazilim" title="İS Yazılım Kurumsal Çözümler">${match}</a>`;
+      });
+
+      // 2. ssbilgi.com yönlendirmeleri[cite: 2]
+      const regexSsBilgi = /\b(bilgisayar servisi|teknik servis|bilgisayar servisine|bilgisayar|bilgisayarları|ağ|ağı|ağları|network|networke)\b(?![^<]*>|[^<>]*<\/a>)/gi;
+      text = text.replace(regexSsBilgi, (match) => {
+        return `<a href="https://ssbilgi.com" target="_blank" rel="noopener" class="auto-link-ssbilgi" title="SS Bilgi Ağ ve Teknik Servis">${match}</a>`;
+      });
+
+      return text;
+    }
+
+    async function loadArticlesFromGithub() {
+      try {
+        const res = await fetch('articles.json?v=' + Date.now());
+        if (res.ok) {
+          customArticles = await res.json();
+          if (Array.isArray(customArticles) && customArticles.length > 0) {
+            const dbIds = new Set(customArticles.map(d => d.id));
+            const filteredDefaults = defaultArticles.filter(a => !dbIds.has(a.id));
+            articles = [...customArticles, ...filteredDefaults];
+          }
+        }
+      } catch (e) {
+        console.log("JSON okuma hatası:", e);
+      }
+    }
+
+    async function saveToGithub(updatedCustomArticles) {
+      if (!GITHUB_REPO || !GITHUB_TOKEN) {
+        alert("Lütfen GitHub Ayarlarını kontrol edin!");
+        return false;
+      }
+
+      try {
+        const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/articles.json`;
+        let sha = '';
+        const getRes = await fetch(url, {
+          headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+        });
+        if (getRes.ok) {
+          const getData = await getRes.json();
+          sha = getData.sha;
+        }
+
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(updatedCustomArticles, null, 2))));
+
+        const putRes = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${GITHUB_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'Admin paneli üzerinden haber güncellemesi',
+            content: content,
+            sha: sha || undefined
+          })
+        });
+
+        if (putRes.ok) {
+          alert("Haber başarıyla GitHub'a kaydedildi! 10-15 saniye içinde canlı sitede aktif olacaktır.");
+          return true;
+        } else {
+          const errData = await putRes.json();
+          alert("GitHub Kayıt Hatası: " + (errData.message || "Bilinmeyen hata"));
+          return false;
+        }
+      } catch (e) {
+        alert("Bağlantı hatası: " + e.message);
+        return false;
+      }
+    }
+
+    // --- ROUTER MOTORU ---
+    function navigate(route) {
+      window.location.hash = route;
+    }
+
+    window.addEventListener('hashchange', handleRoute);
+
+    async function handleRoute() {
+      await loadArticlesFromGithub();
+      const hash = window.location.hash.replace('#', '');
+      
+      if (hash.startsWith('haber/')) {
+        const id = hash.split('haber/')[1];
+        showDetail(id);
+      } else if (hash === 'admin') {
+        showAdmin();
+      } else {
+        showHome();
+      }
+    }
+
+    function showHome() {
+      document.title = "Türkiye'nin Yazılım Haberi - Güncel Teknoloji Portalı";
+      
+      // OG Meta Reset
+      document.getElementById('og-title').setAttribute('content', "Türkiye'nin Yazılım Haberi");
+      document.getElementById('og-desc').setAttribute('content', "Türkiye'nin teknoloji ve yazılım dünyasından en son haberler ve derinlemesine analizler.");
+      document.getElementById('og-image').setAttribute('content', "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=630&fit=crop");
+      
+      let filtered = articles;
+      
+      if (currentCategory !== 'Tümü') {
+        filtered = filtered.filter(a => a.category === currentCategory);
+      }
+      if (searchQuery.trim() !== '') {
+        const q = searchQuery.toLowerCase();
+        filtered = filtered.filter(a => a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q));
+      }
+
+      const mainFeatured = filtered[0];
+      const sub1 = filtered[1];
+      const sub2 = filtered[2];
+      const gridList = filtered.slice(3);
+
+      let html = '';
+
+      if (mainFeatured && currentCategory === 'Tümü' && searchQuery === '') {
+        html += `
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-12">
+            <div class="lg:col-span-7 bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-md hover:shadow-xl transition-all flex flex-col cursor-pointer" onclick="navigate('haber/${mainFeatured.id}')">
+              <div class="relative aspect-video overflow-hidden">
+                <img src="${mainFeatured.image}" alt="${mainFeatured.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                <span class="absolute top-4 left-4 bg-sky-600 text-white text-xs font-black px-3 py-1 rounded-lg uppercase tracking-wider">${mainFeatured.category}</span>
+              </div>
+              <div class="p-6 sm:p-8 flex flex-col flex-grow">
+                <div class="text-xs text-slate-400 mb-2">${mainFeatured.date} &bull; ${mainFeatured.author}</div>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 hover:text-sky-600 transition-colors leading-snug mb-3">${mainFeatured.title}</h2>
+                <p class="text-slate-600 text-sm line-clamp-3 mb-6">${applyAutoLinks(mainFeatured.summary)}</p>
+                <div class="mt-auto text-xs font-extrabold text-sky-600 flex items-center">HABERİN DEVAMI <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 flex flex-col gap-6">
+              ${sub1 ? `
+                <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-md hover:shadow-xl transition-all flex flex-col sm:flex-row flex-1 cursor-pointer" onclick="navigate('haber/${sub1.id}')">
+                  <div class="sm:w-2/5 aspect-video sm:aspect-auto overflow-hidden"><img src="${sub1.image}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"></div>
+                  <div class="p-5 sm:w-3/5 flex flex-col justify-between">
+                    <div><span class="text-[10px] font-bold text-sky-600 uppercase block mb-1">${sub1.category}</span>
+                    <h3 class="text-sm font-bold text-slate-900 hover:text-sky-600 line-clamp-2">${sub1.title}</h3></div>
+                    <span class="text-[11px] text-slate-400 mt-2">${sub1.date}</span>
+                  </div>
+                </div>
+              ` : ''}
+              ${sub2 ? `
+                <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-md hover:shadow-xl transition-all flex flex-col sm:flex-row flex-1 cursor-pointer" onclick="navigate('haber/${sub2.id}')">
+                  <div class="sm:w-2/5 aspect-video sm:aspect-auto overflow-hidden"><img src="${sub2.image}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"></div>
+                  <div class="p-5 sm:w-3/5 flex flex-col justify-between">
+                    <div><span class="text-[10px] font-bold text-sky-600 uppercase block mb-1">${sub2.category}</span>
+                    <h3 class="text-sm font-bold text-slate-900 hover:text-sky-600 line-clamp-2">${sub2.title}</h3></div>
+                    <span class="text-[11px] text-slate-400 mt-2">${sub2.date}</span>
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }
+
+      html += `
+        <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-200">
+          <h2 class="text-xl font-extrabold text-slate-900">${currentCategory === 'Tümü' ? 'Tüm Haberler ve Analizler' : currentCategory + ' Haberleri'}</h2>
+          <span class="text-xs font-semibold bg-slate-200 text-slate-700 px-3 py-1 rounded-full">${filtered.length} Haber</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      `;
+
+      const listToRender = (currentCategory === 'Tümü' && searchQuery === '') ? gridList : filtered;
+
+      listToRender.forEach(article => {
+        html += `
+          <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all flex flex-col cursor-pointer" onclick="navigate('haber/${article.id}')">
+            <div class="relative overflow-hidden aspect-video">
+              <img src="${article.image}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-3 left-3 bg-slate-900/90 text-sky-400 text-xs font-bold px-2.5 py-1 rounded-md">${article.category}</span>
+            </div>
+            <div class="p-6 flex flex-col flex-grow">
+              <div class="text-xs text-slate-400 mb-2">${article.date} &bull; ${article.author}</div>
+              <h3 class="text-base font-bold text-slate-900 hover:text-sky-600 line-clamp-2 mb-3">${article.title}</h3>
+              <p class="text-slate-600 text-xs line-clamp-3 mb-6">${applyAutoLinks(article.summary)}</p>
+              <div class="inline-flex items-center justify-between text-xs font-bold text-sky-600 bg-sky-50 px-4 py-2.5 rounded-xl hover:bg-sky-100 mt-auto">
+                <span>HABERİN DEVAMI</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </div>
+            </div>
+          </article>
+        `;
+      });
+
+      html += `</div>`;
+      document.getElementById('app-container').innerHTML = html;
+      lucide.createIcons();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showDetail(id) {
+      const article = articles.find(a => a.id === id);
+      if (!article) {
+        navigate('');
+        return;
+      }
+
+      // Dinamik Meta ve Sosyal Medya Paylaşım Güncellemesi
+      document.title = `${article.title} - Türkiye'nin Yazılım Haberi`;
+      document.getElementById('meta-desc').setAttribute('content', article.summary);
+      document.getElementById('og-title').setAttribute('content', article.title);
+      document.getElementById('og-desc').setAttribute('content', article.summary);
+      document.getElementById('og-image').setAttribute('content', article.image);
+
+      const articleUrl = window.location.href;
+
+      const html = `
+        <div class="max-w-4xl mx-auto bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-sm">
+          <button onclick="navigate('')" class="inline-flex items-center text-xs font-bold text-slate-500 hover:text-sky-600 mb-6 cursor-pointer">
+            <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> TÜM HABERLERE DÖN
+          </button>
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="bg-sky-100 text-sky-800 text-xs font-bold px-3 py-1 rounded-full">${article.category}</span>
+            <span class="text-xs text-slate-400">&bull;</span>
+            <span class="text-xs text-slate-500">${article.date}</span>
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">${article.title}</h1>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between border-y border-slate-100 py-4 mb-8 text-xs text-slate-500 gap-3">
+            <div class="font-bold text-slate-800">${article.author} (${article.source})</div>
+            <div class="flex space-x-2">
+              <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(article.title + ' - ' + articleUrl)}" target="_blank" rel="noopener" class="p-2 bg-emerald-50 text-emerald-600 rounded-lg font-bold hover:bg-emerald-100 transition-colors">WhatsApp'ta Paylaş</a>
+              <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(articleUrl)}" target="_blank" rel="noopener" class="p-2 bg-slate-100 text-slate-800 rounded-lg font-bold hover:bg-slate-200 transition-colors">X (Twitter)</a>
+            </div>
+          </div>
+          <div class="rounded-2xl overflow-hidden mb-8 aspect-video shadow-md">
+            <img src="${article.image}" alt="${article.title}" class="w-full h-full object-cover">
+          </div>
+          <div class="bg-slate-50 border-l-4 border-sky-500 p-5 rounded-r-2xl mb-8 text-slate-700 font-medium italic text-base">
+            "${applyAutoLinks(article.summary)}"
+          </div>
+          <div class="prose max-w-none text-slate-700 text-base leading-relaxed space-y-4">
+            ${applyAutoLinks(article.content)}
+          </div>
+          <div class="mt-12 p-6 bg-slate-900 text-white rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h4 class="font-bold text-lg">Kurumsal Yazılım, Donanım Ve Ağ Çözümleri</h4>
+              <p class="text-xs text-slate-300">Ön muhasebe, stok takip, PDKS, uzaktan destek ve teknik servis hizmetlerimizi inceleyin.</p>
+            </div>
+            <div class="flex gap-2 w-full sm:w-auto">
+              <a href="https://isyazilim.com" target="_blank" rel="noopener" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs flex-1 sm:flex-none text-center whitespace-nowrap">İS YAZILIM[cite: 2]</a>
+              <a href="https://ssbilgi.com" target="_blank" rel="noopener" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs flex-1 sm:flex-none text-center whitespace-nowrap">SS BİLGİ[cite: 2]</a>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('app-container').innerHTML = html;
+      lucide.createIcons();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showAdmin() {
+      document.title = "Yönetici Paneli - Türkiye'nin Yazılım Haberi";
+      if (!isAdminLoggedIn) {
+        document.getElementById('app-container').innerHTML = `
+          <div class="max-w-md mx-auto bg-white p-8 rounded-3xl border border-slate-200 shadow-xl mt-12">
+            <h2 class="text-xl font-extrabold text-slate-900 mb-4 text-center">Yönetici Girişi</h2>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+              <div><label class="block text-xs font-bold mb-1">Kullanıcı Adı</label><input type="text" id="admin-user" required class="w-full border rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-sky-500 outline-none"></div>
+              <div><label class="block text-xs font-bold mb-1">Şifre</label><input type="password" id="admin-pass" required class="w-full border rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-sky-500 outline-none"></div>
+              <button type="submit" class="w-full bg-slate-900 text-white font-bold py-3 rounded-xl text-sm hover:bg-slate-800">Giriş Yap</button>
+            </form>
+          </div>
+        `;
+        return;
+      }
+
+      let rows = '';
+      articles.forEach(a => {
+        rows += `
+          <tr class="border-b text-xs hover:bg-slate-50">
+            <td class="p-3 font-bold text-slate-900">${a.id}</td>
+            <td class="p-3 max-w-xs truncate font-medium text-slate-800">${a.title}</td>
+            <td class="p-3 text-slate-500">${a.category}</td>
+            <td class="p-3 text-slate-500">${a.date}</td>
+            <td class="p-3 text-right space-x-2 whitespace-nowrap">
+              <button onclick="editArticleModal('${a.id}')" class="text-sky-600 font-bold hover:underline">Düzenle</button>
+              <button onclick="deleteArticle('${a.id}')" class="text-rose-600 font-bold hover:underline">Sil</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      document.getElementById('app-container').innerHTML = `
+        <div class="space-y-6">
+          <div class="bg-slate-900 text-white rounded-3xl p-6 shadow-md border border-slate-800">
+            <h3 class="text-sm font-bold text-sky-400 mb-2 flex items-center gap-2">
+              <i data-lucide="github" class="w-4 h-4"></i> GitHub Otomatik Senkronizasyon Ayarı
+            </h3>
+            <p class="text-xs text-slate-400 mb-4">GitHub repo bilgilerinizi buradan kontrol edebilirsiniz.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-300 mb-1">GitHub Reposu (KullanıcıAdı/RepoAdı)</label>
+                <input type="text" id="gh-repo-input" value="${GITHUB_REPO}" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white outline-none">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-300 mb-1">GitHub Personal Access Token</label>
+                <input type="password" id="gh-token-input" value="${GITHUB_TOKEN}" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white outline-none">
+              </div>
+            </div>
+            <button onclick="saveGithubConfig()" class="mt-4 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold px-4 py-2 rounded-xl">Ayarları Güncelle</button>
+          </div>
+
+          <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 border-b border-slate-200 pb-4">
+              <div>
+                <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900">Yönetim Paneli (GitHub Senkronizasyonu)</h1>
+                <p class="text-xs text-slate-500 mt-1">Eklediğiniz ve düzenlediğiniz haberler anında GitHub reposuna işlenir.</p>
+              </div>
+              <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
+                <button onclick="openNewArticleModal()" class="bg-sky-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-sky-500 flex items-center gap-1 whitespace-nowrap">
+                  <i data-lucide="plus" class="w-4 h-4"></i> Yeni Haber Ekle
+                </button>
+                <button onclick="isAdminLoggedIn=false; navigate('');" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-300 whitespace-nowrap">Çıkış</button>
+              </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse min-w-[600px]">
+                <thead>
+                  <tr class="bg-slate-50 text-xs text-slate-500 uppercase border-b border-slate-200">
+                    <th class="p-3">ID</th><th class="p-3">Başlık</th><th class="p-3">Kategori</th><th class="p-3">Tarih</th><th class="p-3 text-right">İşlemler</th>
+                  </tr>
+                </thead>
+                <tbody>${rows}</tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="admin-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+          <div class="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 overflow-y-auto max-h-[92vh] border border-slate-200 shadow-2xl">
+            <h3 id="modal-title" class="text-xl font-extrabold text-slate-900 mb-4">Yeni Haber Ekle</h3>
+            <form onsubmit="saveArticleForm(event)" class="space-y-4">
+              <input type="hidden" id="form-id">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Haber Başlığı</label>
+                <input type="text" id="form-title" required class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Kategori</label>
+                  <select id="form-category" class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+                    <option value="Yerli Yazılım">Yerli Yazılım</option>
+                    <option value="Otomasyon & ERP">Otomasyon & ERP</option>
+                    <option value="Siber Güvenlik">Siber Güvenlik</option>
+                    <option value="Yapay Zeka">Yapay Zeka</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Görsel (PC'den Yükle veya URL)</label>
+                  <div class="flex gap-2 items-center">
+                    <input type="text" id="form-image" required placeholder="Görsel URL veya dosya seçin" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-sky-500 outline-none">
+                    <label class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-3 py-2 rounded-xl text-xs cursor-pointer whitespace-nowrap border border-slate-300 flex items-center gap-1">
+                      <i data-lucide="upload" class="w-3.5 h-3.5"></i> Yükle
+                      <input type="file" id="file-input" accept="image/*" onchange="handleFileUpload(event)" class="hidden">
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Özet Metni</label>
+                <textarea id="form-summary" rows="2" required class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-sky-500 outline-none"></textarea>
+              </div>
+
+              <div class="bg-sky-50/70 border border-sky-200 p-3.5 rounded-2xl">
+                <span class="text-xs font-bold text-sky-900 block mb-2">🔗 Özel Bağlantı (Link) Ekleme Aracı</span>
+                <div class="flex flex-col sm:flex-row gap-2">
+                  <input type="text" id="link-text" placeholder="Bağlanacak Kelime" class="w-full sm:w-1/2 border border-sky-300 rounded-xl px-3 py-1.5 text-xs outline-none bg-white">
+                  <input type="url" id="link-url" value="https://isyazilim.com" placeholder="Hedef Link (https://...)" class="w-full sm:w-1/2 border border-sky-300 rounded-xl px-3 py-1.5 text-xs outline-none bg-white">
+                  <button type="button" onclick="insertCustomLink()" class="bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 py-1.5 rounded-xl text-xs whitespace-nowrap">İçeriğe Ekle</button>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Detaylı Makale İçeriği (HTML ve Bağlantılar)</label>
+                <textarea id="form-content" rows="6" required class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-sky-500 outline-none"></textarea>
+              </div>
+
+              <div class="flex justify-end space-x-3 pt-4 border-t border-slate-100">
+                <button type="button" onclick="closeAdminModal()" class="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl text-xs hover:bg-slate-200">İptal</button>
+                <button type="submit" class="px-5 py-2 bg-sky-600 text-white font-bold rounded-xl text-xs hover:bg-sky-500">GitHub'a Kaydet ve Canlıya Al</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    function saveGithubConfig() {
+      const repo = document.getElementById('gh-repo-input').value.trim();
+      const token = document.getElementById('gh-token-input').value.trim();
+      if (!repo || !token) {
+        alert("Lütfen alanları doldurun.");
+        return;
+      }
+      localStorage.setItem('gh_repo', repo);
+      localStorage.setItem('gh_token', token);
+      GITHUB_REPO = repo;
+      GITHUB_TOKEN = token;
+      alert("GitHub ayarları kaydedildi!");
+    }
+
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        document.getElementById('form-image').value = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function insertCustomLink() {
+      const text = document.getElementById('link-text').value.trim();
+      const url = document.getElementById('link-url').value.trim();
+      const contentArea = document.getElementById('form-content');
+
+      if (!text || !url) {
+        alert('Lütfen hem bağlanacak kelimeyi hem de hedef URL adresini yazın.');
+        return;
+      }
+
+      const linkHTML = `<a href="${url}" target="_blank" rel="noopener" class="auto-link-isyazilim">${text}</a>`;
+      contentArea.value += ` ${linkHTML} `;
+      document.getElementById('link-text').value = '';
+      alert(`"${text}" kelimesi bağlantı eklenerek makale içeriğine eklendi.`);
+    }
+
+    function openNewArticleModal() {
+      document.getElementById('form-id').value = '';
+      document.getElementById('form-title').value = '';
+      document.getElementById('form-summary').value = '';
+      document.getElementById('form-content').value = '';
+      document.getElementById('form-image').value = 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=450&fit=crop';
+      document.getElementById('modal-title').innerText = 'Yeni Haber Ekle';
+      document.getElementById('admin-modal').classList.remove('hidden');
+    }
+
+    function editArticleModal(id) {
+      const a = articles.find(x => x.id === id);
+      if (!a) return;
+      document.getElementById('form-id').value = a.id;
+      document.getElementById('form-title').value = a.title;
+      document.getElementById('form-category').value = a.category;
+      document.getElementById('form-image').value = a.image;
+      document.getElementById('form-summary').value = a.summary;
+      document.getElementById('form-content').value = a.content;
+      document.getElementById('modal-title').innerText = 'Haberi Düzenle';
+      document.getElementById('admin-modal').classList.remove('hidden');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.add('hidden');
+    }
+
+    async function saveArticleForm(e) {
+      e.preventDefault();
+      const id = document.getElementById('form-id').value;
+      const title = document.getElementById('form-title').value;
+      const category = document.getElementById('form-category').value;
+      const image = document.getElementById('form-image').value;
+      const summary = document.getElementById('form-summary').value;
+      const content = document.getElementById('form-content').value;
+
+      let newArticle = {};
+
+      if (id) {
+        const index = customArticles.findIndex(a => a.id === id);
+        if (index !== -1) {
+          customArticles[index] = { ...customArticles[index], title, category, image, summary, content };
+        } else {
+          const baseArt = articles.find(a => a.id === id);
+          customArticles.unshift({ ...baseArt, title, category, image, summary, content });
+        }
+      } else {
+        const newId = `n${Date.now()}`;
+        const today = new Date();
+        const dateStr = `${String(today.getDate()).padStart(2, '0')}.${String(today.getMonth() + 1).padStart(2, '0')}.${today.getFullYear()}`;
+        newArticle = {
+          id: newId,
+          title,
+          category,
+          date: dateStr,
+          image,
+          summary,
+          content,
+          source: "Yönetici Paneli",
+          author: "Admin"
+        };
+        customArticles.unshift(newArticle);
+      }
+
+      const success = await saveToGithub(customArticles);
+      if (success) {
+        closeAdminModal();
+        handleRoute();
+      }
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      if (document.getElementById('admin-user').value === 'admin' && document.getElementById('admin-pass').value === '1919') {
+        isAdminLoggedIn = true;
+        showAdmin();
+      } else {
+        alert('Hatalı şifre!');
+      }
+    }
+
+    async function deleteArticle(id) {
+      if (confirm('Silmek istediğinize emin misiniz?')) {
+        customArticles = customArticles.filter(a => a.id !== id);
+        const success = await saveToGithub(customArticles);
+        if (success) {
+          handleRoute();
+        }
+      }
+    }
+
+    function filterCategory(cat) {
+      currentCategory = cat;
+      searchQuery = '';
+      document.getElementById('search-input').value = '';
+      closeMobileMenu();
+      navigate('');
+    }
+
+    function handleSearch() {
+      searchQuery = document.getElementById('search-input').value;
+      showHome();
+    }
+
+    document.addEventListener('DOMContentLoaded', handleRoute);
+  </script>
+</body>
+</html>
